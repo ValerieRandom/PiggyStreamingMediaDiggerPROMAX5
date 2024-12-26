@@ -1,10 +1,10 @@
-package com.xxx.piggystreamingmediadiggerpromax5;
+package Util;
 
 import javafx.scene.control.Alert;
 
 import java.io.File;
 
-public class Utils {
+public class SystemUtils {
 
     public static String detectOS() {
         String os = System.getProperty("os.name").toLowerCase();

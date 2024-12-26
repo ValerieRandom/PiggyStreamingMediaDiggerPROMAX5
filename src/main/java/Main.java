@@ -1,6 +1,5 @@
-package com.xxx.piggystreamingmediadiggerpromax5;
-
 import UI.UIBuilder;
+import Util.SystemUtils;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -13,17 +12,17 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         // 檢測操作系統
-        String osType = Utils.detectOS();
+        String osType = SystemUtils.detectOS();
         if (osType.equals("unsupported")) {
-            Utils.showAlert("錯誤", "小豬目前不支援此作業系統！");
+            SystemUtils.showAlert("錯誤", "小豬目前不支援此作業系統！");
             return;
         }
 
         // 確保工具存在
         try {
-            Utils.ensureDependencies(osType);
+            SystemUtils.ensureDependencies(osType);
         } catch (RuntimeException e) {
-            Utils.showAlert("錯誤", e.getMessage());
+            SystemUtils.showAlert("錯誤", e.getMessage());
             return;
         }
 
@@ -31,8 +30,6 @@ public class Main extends Application {
         TextArea logOutput = new TextArea();
         logOutput.setEditable(false);
         VBox.setVgrow(logOutput, Priority.ALWAYS);
-
-        // 建構主界面（並將 logOutput 傳給 UIBuilder 共同使用）
         VBox root = UIBuilder.buildUI(osType, logOutput);
 
         // 顯示視窗
