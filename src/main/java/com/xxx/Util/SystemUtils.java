@@ -1,4 +1,4 @@
-package Util;
+package com.xxx.Util;
 
 import javafx.scene.control.Alert;
 
@@ -36,9 +36,9 @@ public class SystemUtils {
         try {
             getToolPath("yt-dlp", osType);
             getToolPath("ffmpeg", osType);
-            // System.out.println("所有工具已準備完畢！");
+            System.out.println("所有工具已準備完畢！");
         } catch (Exception e) {
-            // System.err.println("工具檢查失敗：" + e.getMessage());
+            System.err.println("工具檢查失敗：" + e.getMessage());
             throw new RuntimeException("工具檢查失敗，請確保 TOOLS 資料夾中存在正確的工具！");
         }
     }
@@ -50,5 +50,20 @@ public class SystemUtils {
             alert.setContentText(content);
             alert.showAndWait();
         });
+    }
+
+    public static String getCommandPrefix(String osType) {
+        if (osType == null || osType.isEmpty()) {
+            throw new IllegalArgumentException("作業系統類型不能為空！");
+        }
+
+        switch (osType.toLowerCase()) {
+            case "windows":
+                return "cmd /c";
+            case "mac":
+                return "/bin/bash -c"; // Unix/Linux/macOS 系統使用 bash
+            default:
+                throw new UnsupportedOperationException("不支持的操作系統類型: " + osType);
+        }
     }
 }

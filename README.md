@@ -25,9 +25,9 @@ PiggyStreamingMediaDiggerPROMAX5/
  │   └─ ... (其他平台可放相應可執行檔)
  ├─ src/
  │   ├─ main/java/
- │   │   ├─ UI/
+ │   │   ├─ com.xxx.UI/
  │   │   │   ├─ NotificationManager.java  # 統一做提示訊息
- │   │   │   └─ UIBuilder.java            # 架構 GUI 介面
+ │   │   │   └─ com.xxx.UI.java            # 架構 GUI 介面
  │   │   └─ com/xxx/piggystreamingmediadiggerpromax5/
  │   │       ├─ Main.java                # 程式進入點
  │   │       ├─ Downloader.java          # 下載&轉檔主要邏輯
@@ -49,10 +49,10 @@ PiggyStreamingMediaDiggerPROMAX5/
    - JavaFX Application 進入點：  
      - `start(Stage primaryStage)` 中先偵測作業系統 `osType`。  
      - 檢查 `yt-dlp`、`ffmpeg` 是否存在（藉由 `Utils.ensureDependencies(...)`）。  
-     - 建立唯一的 `TextArea logOutput`，傳入 `UIBuilder` 建置主介面。  
+     - 建立唯一的 `TextArea logOutput`，傳入 `com.xxx.UI` 建置主介面。  
    - `primaryStage.show()` 顯示視窗。
 
-2. **UIBuilder.java**
+2. **com.xxx.UI.java**
    - 建構使用者介面 (VBox 或其他容器)：  
      - 提供 TextField 讓使用者輸入 `URL`。  
      - 提供 ComboBox 讓使用者選擇最終的影片格式（MP4、WMV、MOV）。  
@@ -101,7 +101,7 @@ PiggyStreamingMediaDiggerPROMAX5/
 
 3. **畫質無法自訂**：  
    - 由於全部都用 `bestvideo[ext=mp4] + bestaudio[ext=m4a]`，無法讓使用者自選 720p、1080p、4K 等。  
-   - 若真的想給使用者一個「畫質控制」的功能，需要把 UI 端與 `Downloader.downloadVideo(...)` 改成可以接收特定代碼 + audio 合併。
+   - 若真的想給使用者一個「畫質控制」的功能，需要把 com.xxx.UI 端與 `Downloader.downloadVideo(...)` 改成可以接收特定代碼 + audio 合併。
 
 4. **其他平台可能要帶 cookies**：  
    - 若影片是私有的、或需要登入，`yt-dlp` 可能需要額外參數 `--cookies-from-browser` 或 `--cookies <cookies.txt>` 才能下載。
@@ -109,9 +109,9 @@ PiggyStreamingMediaDiggerPROMAX5/
 ## 待辦事項
 
 - [ ] 若要支援更多平台，增加自動檢測並選擇可行影片 + 音訊流的邏輯。  
-- [ ] 在 UI 端提供更細緻的錯誤處理 (例如網路失敗時彈出通知，而不是只印日誌)。  
+- [ ] 在 com.xxx.UI 端提供更細緻的錯誤處理 (例如網路失敗時彈出通知，而不是只印日誌)。  
 - [ ] 改善畫質選擇：可考慮在 `Downloader.getAvailableQualities()` 裡同時抓到音訊碼，以支援手動合併。  
-- [ ] 在 `readme` 或 UI 中提醒使用者：某些影片可能存在版權限制或需要登入。
+- [ ] 在 `readme` 或 com.xxx.UI 中提醒使用者：某些影片可能存在版權限制或需要登入。
 
 ---
 

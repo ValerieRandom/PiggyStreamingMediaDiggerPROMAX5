@@ -1,5 +1,10 @@
 package com.xxx.BottonsBehavior;
 
+import javafx.application.Platform;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,4 +40,20 @@ public class Recommend {
         }
         return null;
     }
+
+    // 綁定 URL 輸入框監聽邏輯
+    public static void bindUrlField(TextField urlField, String osType, TextArea logOutput,
+                                    ComboBox<String> formatCombo, ComboBox<String> qualityCombo) {
+        urlField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.trim().isEmpty()) {
+                Platform.runLater(() -> logOutput.appendText("正在觸發檢測邏輯...\n"));
+
+                // 調用 AvailableQualities 中的行為
+                AvailableQualities.detectAndRecommend(
+                        newValue, osType, logOutput, formatCombo, qualityCombo
+                );
+            }
+        });
+    }
+
 }
