@@ -22,7 +22,7 @@ public class ConvertFromat {
         String command = String.format("\"%s\" -i \"%s\" -c:v libx264 -c:a aac \"%s\"",
                 ffmpegPath, inputPath, outputPath);
 
-        if ("windows".equals(osType)) {
+        if (SystemUtils.WINDOWS.equals(osType)) {
             command = "cmd /c " + command;
         }
 

@@ -5,15 +5,18 @@ import javafx.scene.control.Alert;
 import java.io.File;
 
 public class SystemUtils {
+    public static final String WINDOWS = "windows";
+    public static final String MAC_OS = "mac";
+    public static final String UNSUPPORTED = "unsupported";
 
     public static String detectOS() {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
-            return "windows";
+            return WINDOWS;
         } else if (os.contains("mac")) {
-            return "mac";
+            return MAC_OS;
         } else {
-            return "unsupported";
+            return UNSUPPORTED;
         }
     }
 
@@ -21,7 +24,7 @@ public class SystemUtils {
         // 取得目前執行程式所在資料夾
         String currentDir = System.getProperty("user.dir");
         File toolsDir = new File(currentDir, "TOOLS");
-        String executableName = toolName + (osType.equals("windows") ? ".exe" : "");
+        String executableName = toolName + (osType.equals(WINDOWS) ? ".exe" : "");
 
         File toolFile = new File(toolsDir, executableName);
 
@@ -58,9 +61,9 @@ public class SystemUtils {
         }
 
         switch (osType.toLowerCase()) {
-            case "windows":
+            case WINDOWS:
                 return "cmd /c";
-            case "mac":
+            case MAC_OS:
                 return "/bin/bash -c"; // Unix/Linux/macOS 系統使用 bash
             default:
                 throw new UnsupportedOperationException("不支持的操作系統類型: " + osType);

@@ -58,7 +58,7 @@ public class AvailableQualities {
     public static List<String> getAvailableQualities(String url, String osType, TextArea logOutput) throws Exception {
         File ytDlp = SystemUtils.getToolPath("yt-dlp", osType);
         String command = String.format("\"%s\" -F %s", ytDlp.getAbsolutePath(), url);
-        if (osType.equals("windows")) {
+        if (osType.equals(SystemUtils.WINDOWS)) {
             command = "cmd /c " + command;
         }
 

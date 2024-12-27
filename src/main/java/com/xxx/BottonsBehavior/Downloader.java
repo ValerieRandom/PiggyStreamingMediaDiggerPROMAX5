@@ -27,7 +27,7 @@ public class Downloader {
                 String command = String.format("\"%s\" -f \"%s\" -o \"%s.%%(ext)s\" %s",
                         ytDlp.getAbsolutePath(), format, savePath + "/PiggyStreamingMediaDigger", url);
 
-                if ("windows".equals(osType)) {
+                if (SystemUtils.WINDOWS.equals(osType)) {
                     command = "cmd /c " + command;
                 }
 
