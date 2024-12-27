@@ -1,12 +1,14 @@
 package com.xxx.UI;
 
-import com.xxx.BottonsBehavior.SupportWebsiteBehavior;
+import com.xxx.BottonsBehavior.Downloader;
+import com.xxx.BottonsBehavior.SupportWebsite;
+import com.xxx.BottonsBehavior.URLParser;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.geometry.Insets;
 
-import static com.xxx.BottonsBehavior.SupportWebsiteBehavior.handleLetterButtonClick;
+import static com.xxx.BottonsBehavior.SupportWebsite.handleLetterButtonClick;
 
 
 public class UIBuilder {
@@ -22,35 +24,37 @@ public class UIBuilder {
         Button supportButton = new Button("字母列表說明");
         supportButton.setStyle("-fx-font-size: 14px; -fx-text-fill: #ff69b4; " +
                 "-fx-background-color: transparent; -fx-border-color: #ff69b4; -fx-border-radius: 5;");
-        supportButton.setOnAction(event ->
-                notificationManager.showInfoNotification("SUPPORTED_SITES",null));
-
+        supportButton.setOnAction(event -> notificationManager.showInfoNotification("SUPPORTED_SITES", null));
 
         Button refreshButton = new Button("刷新字母列表");
-        refreshButton.setStyle("-fx-font-size: 14px; -fx-text-fill: #ff69b4; -fx-background-color: transparent; -fx-border-color: #ff69b4; -fx-border-radius: 5;");
+        refreshButton.setStyle("-fx-font-size: 14px; -fx-text-fill: #ff69b4; " +
+                "-fx-background-color: transparent; -fx-border-color: #ff69b4; -fx-border-radius: 5;");
         refreshButton.setOnAction(event -> {
-            SupportWebsiteBehavior.clearCache();
+            SupportWebsite.clearCache();
             logOutput.clear();
             notificationManager.showInfoNotification("CACHE_CLEARED", null);
         });
 
+        Button BestCombinationButton = new Button("最佳下載組合說明");
+        BestCombinationButton.setStyle("-fx-font-size: 14px; -fx-text-fill: #ff69b4; " +
+                "-fx-background-color: transparent; -fx-border-color: #ff69b4; -fx-border-radius: 5;");
+        BestCombinationButton.setOnAction(event -> notificationManager.showInfoNotification("BEST_COMBINATION", null));
+
+        Button StartFormat = new Button("開始解析說明");
+        StartFormat.setStyle("-fx-font-size: 14px; -fx-text-fill: #ff69b4; " +
+                "-fx-background-color: transparent; -fx-border-color: #ff69b4; -fx-border-radius: 5;");
+        StartFormat.setOnAction(event -> notificationManager.showInfoNotification("START_FORMAT", null));
+
+        Button DirectDownloadButton = new Button("直接下載說明");
+        DirectDownloadButton.setStyle("-fx-font-size: 14px; -fx-text-fill: #ff69b4; " +
+                "-fx-background-color: transparent; -fx-border-color: #ff69b4; -fx-border-radius: 5;");
+        DirectDownloadButton.setOnAction(event ->
+                notificationManager.showInfoNotification("DIRECT_DOWNLOAD", null));
+
+
         HBox topButtons = new HBox(10);
-        topButtons.getChildren().addAll(supportButton, refreshButton);
+        topButtons.getChildren().addAll(supportButton, refreshButton, StartFormat, DirectDownloadButton,BestCombinationButton);
 
-        /*
-            -Hint 0-
-        // 使用說明通知
-        Button usageGuideButton = new Button("使用說明");
-        usageGuideButton.setOnAction(event ->
-                notificationManager.showInfoNotification("USAGE_GUIDE", null)
-        );
-
-        // 功能更新通知
-        Button featureUpdateButton = new Button("功能更新");
-        featureUpdateButton.setOnAction(event ->
-                notificationManager.showInfoNotification("FEATURE_UPDATE", null)
-        );
-        */
 
         // A-Z 按鈕區域
         GridPane buttonGrid = new GridPane();
@@ -74,16 +78,15 @@ public class UIBuilder {
             letterButton.setOnAction(e -> handleLetterButtonClick(logOutput, osType, finalC));
         }
 
-        Label urlLabel = new Label("影片網址:");
+        Label urlLabel = new Label("URL:");
         urlLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #ff69b4;");
         TextField urlField = new TextField();
-        urlField.setPromptText("請輸入影片網址");
+        urlField.setPromptText("請複製貼上影片網址");
         urlField.setStyle("-fx-border-color: #ffb6c1; -fx-border-radius: 3; -fx-padding: 5; -fx-background-color: #fff0f5;");
         HBox urlBox = new HBox(10);
         urlBox.getChildren().addAll(urlLabel, urlField);
         HBox.setHgrow(urlField, Priority.ALWAYS);
         urlBox.setStyle("-fx-padding: 5;");
-
 
         Label formatLabel = new Label("影片格式:");
         formatLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #ff69b4;");
@@ -94,11 +97,35 @@ public class UIBuilder {
 
         Label qualityLabel = new Label("畫質:");
         qualityLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #ff69b4;");
-        ComboBox<String> qualityCombo = new ComboBox<>();
+        ComboBox<Object> qualityCombo = new ComboBox<>();
         qualityCombo.setPromptText("選擇畫質");
         qualityCombo.setPrefWidth(185);
         qualityCombo.setStyle("-fx-background-color: #fff0f5; -fx-border-color: #ffb6c1;");
 
+
+        // 手動下載按鈕
+
+        Button DDButton = new Button("直接下載");
+        DDButton.setStyle("-fx-background-color: #ff69b4; -fx-text-fill: white; -fx-font-size: 14px;");
+        DDButton.setOnAction(event ->
+        {String url = urlField.getText().trim();
+            Downloader.directDownload(url, osType, logOutput);
+        });
+
+        // 開始解析按鈕
+        Button StartFormatButton = new Button("開始解析");
+        StartFormatButton.setStyle("-fx-background-color: #ff69b4; -fx-text-fill: white; -fx-font-size: 14px;");
+        StartFormatButton.setOnAction(event ->
+        {String url = urlField.getText().trim();
+            URLParser. handleUrlAction(url, osType, logOutput, formatCombo, qualityCombo);
+        });
+
+        Button BCBotton= new Button("最佳下載組合");
+        BCBotton.setStyle("-fx-background-color: #ff69b4; -fx-text-fill: white; -fx-font-size: 14px;");
+        BCBotton.setOnAction(event ->
+        {String url = urlField.getText().trim();
+            Downloader.BestDownloadVideo(url, osType, logOutput);
+        });
 
         /*
             -Hint-
@@ -108,6 +135,7 @@ public class UIBuilder {
             setWidth()	（靜態布局使用）直接設置元件的固定寬度，不允許拉伸或壓縮。
 
          */
+
         Region spacer = new Region();
         spacer.setPrefWidth(135);
 
@@ -123,8 +151,21 @@ public class UIBuilder {
 
         optionsBox.setStyle("-fx-padding: 5;");
 
-        // 日誌輸出區域
-        logOutput.setStyle("-fx-font-size: 14px; " +
+
+        Region Spacerfordownload = new Region();
+        Spacerfordownload.setPrefWidth(135);
+        HBox DownLoadBox = new HBox(10);
+        DownLoadBox.getChildren().addAll(
+
+                DDButton,
+                StartFormatButton,
+                BCBotton
+
+        );
+        DownLoadBox.setStyle("-fx-padding: 5;");
+
+
+        logOutput.setStyle("-fx-font-size: 18px; " +
                 "-fx-font-family: 'Consolas'; " +
                 "-fx-text-fill: black; " +
                 "-fx-background-color: #f4f4f4; " +
@@ -139,6 +180,7 @@ public class UIBuilder {
                 topButtons,
                 buttonGrid,
                 urlBox,
+                DownLoadBox,
                 optionsBox,
                 logOutput
 
