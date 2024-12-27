@@ -1,6 +1,5 @@
 package com.xxx.BottonsBehavior;
 
-import com.xxx.UI.UIBuilder;
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 
@@ -16,7 +15,7 @@ import java.util.concurrent.Executors;
 
 import com.xxx.Util.SystemUtils;
 
-public class SupportWebsiteBehavior {
+public class SupportWebsite {
 
     private static final Map<Character, List<String>> SITE_MAP = new TreeMap<>();
     private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool();
