@@ -1,7 +1,6 @@
 package com.xxx.Util;
 
 import javafx.scene.control.Alert;
-
 import java.io.File;
 
 public class SystemUtils {
@@ -18,11 +17,10 @@ public class SystemUtils {
     }
 
     public static File getToolPath(String toolName, String osType) {
-        // 取得目前執行程式所在資料夾
+
         String currentDir = System.getProperty("user.dir");
         File toolsDir = new File(currentDir, "TOOLS");
         String executableName = toolName + (osType.equals("windows") ? ".exe" : "");
-
         File toolFile = new File(toolsDir, executableName);
 
         if (!toolFile.exists()) {
@@ -61,7 +59,7 @@ public class SystemUtils {
             case "windows":
                 return "cmd /c";
             case "mac":
-                return "/bin/bash -c"; // Unix/Linux/macOS 系統使用 bash
+                return "/bin/bash -c";
             default:
                 throw new UnsupportedOperationException("不支持的操作系統類型: " + osType);
         }
