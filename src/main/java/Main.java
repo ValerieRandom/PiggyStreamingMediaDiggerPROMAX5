@@ -25,7 +25,6 @@ public class Main extends Application {
             return;
         }
 
-        // 使用 UIBuilder 建立 Scene
         Scene scene = UIBuilder.buildRoot(osType);
 
         // 顯示視窗
