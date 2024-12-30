@@ -7,32 +7,10 @@ import javafx.scene.control.TextArea;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.Map;
 
 public class Downloader {
 
-    //最佳組合下載
-
-    // 生成下載命令
-    private static String buildDownloadCommand(String url, String selectedQuality, String selectedFormat,
-                                               Map<String, String> qualityToIdMap, Map<String, String> formatToIdMap,
-                                               String osType) {
-        try {
-            String qualityId = qualityToIdMap.get(selectedQuality);
-            String formatId = formatToIdMap.get(selectedFormat);
-
-            if (qualityId == null || formatId == null) {
-                throw new IllegalArgumentException("無法匹配選擇的畫質或格式");
-            }
-
-            File ytDlpPath = SystemUtils.getToolPath("yt-dlp", osType);
-            return SystemUtils.getCommandPrefix(osType) + " " + ytDlpPath.getAbsolutePath()
-                    + " -f " + qualityId + "+" + formatId + " " + url;
-        } catch (Exception e) {
-            System.err.println("生成下載命令時出現錯誤: " + e.getMessage());
-            return null;
-        }
-    }
+    // 最佳組合下載
 
     // 手動下載
     public static void BestDownloadVideo(String url, String osType, TextArea logOutput) {
@@ -43,8 +21,6 @@ public class Downloader {
                     logOutput.appendText(" URL 是空的就不要點下載喇! 白癡喔! 掃興ㄟ!\n");
                 } else {
                     logOutput.appendText("小豬開始進行最佳組合下載工程...看我操作! 轟轟轟! \n");
-
-
                     String downloadDir = setupDownloadDirectory(osType);
                     logOutput.appendText("下載的檔案將存放在: " + downloadDir + "\n");
 
